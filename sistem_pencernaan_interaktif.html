@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif: Sistem Pencernaan Manusia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary: #059669;
+            --secondary-light: #ecfdf5;
+            --accent: #f59e0b;
+            --accent-light: #fffbeb;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --slate: #475569;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0284c7 100%);
+            color: var(--white);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 20%);
+            background-size: 30px 30px;
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: -20px auto 0;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 8px;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--slate);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Content Sections */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 12px;
+        }
+
+        /* Anatomical Diagram Interactive */
+        .diagram-container {
+            position: relative;
+            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 520px;
+        }
+
+        .svg-body {
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+        }
+
+        .organ-node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            fill: #94a3b8;
+        }
+
+        .organ-node:hover, .organ-node.active {
+            filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.8));
+        }
+
+        /* Organ Details Panel */
+        .organ-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .organ-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .badge-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-mekanik { background: #e0e7ff; color: #4338ca; }
+        .tag-kimiawi { background: #fef3c7; color: #b45309; }
+        .tag-keduanya { background: #dcfce7; color: #15803d; }
+
+        .info-group {
+            margin-bottom: 18px;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--slate);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .enzyme-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin: 4px 4px 4px 0;
+            border: 1px solid var(--border);
+        }
+
+        /* Simulation Tab Controls */
+        .sim-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: var(--primary-light);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary { background: var(--primary); color: var(--white); }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: var(--white); color: var(--slate); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: #f8fafc; color: var(--dark); }
+
+        .food-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .food-opt {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--white);
+            cursor: pointer;
+            text-align: center;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .food-opt.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .sim-track {
+            position: relative;
+            background: #f8fafc;
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .track-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .track-step.active-step {
+            background: var(--white);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: scale(1.02);
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .active-step .step-num {
+            background: var(--primary);
+        }
+
+        /* Enzyme Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-option {
+            width: 100%;
+            padding: 14px 20px;
+            margin: 10px 0;
+            background: #f8fafc;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .quiz-option.correct {
+            background: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #15803d !important;
+        }
+
+        .quiz-option.wrong {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c !important;
+        }
+
+        .feedback-box {
+            margin-top: 20px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback-correct { background: #dcfce7; color: #15803d; }
+        .feedback-wrong { background: #fee2e2; color: #b91c1c; }
+
+        .organ-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .organ-btn-select {
+            padding: 10px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+
+        .organ-btn-select.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--slate);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Sistem Pencernaan Pada Manusia</h1>
+        <p>Media Pembelajaran Interaktif — Eksplorasi Organ, Enzim, Simulasi Pencernaan, dan Kuis Evaluasi</p>
+    </header>
+
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'eksplorasi')">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"></path><path d="M12 6v6l4 2"></path></svg>
+                Eksplorasi Organ
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'simulasi')">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Simulasi Pencernaan
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'enzim')">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a1.5 1.5 0 00-1.8 1.48v.5a2 2 0 00.45 1.28l.8.96a2 2 0 001.52.76h10.86a2 2 0 001.52-.76l.8-.96a2 2 0 00.45-1.28v-.5a1.5 1.5 0 00-.322-.972z"></path><path d="M12 2v10"></path></svg>
+                Tabel Enzim
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'kuis')">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Kuis Uji Pemahaman
+            </button>
+        </div>
+
+        <!-- TAB 1: EKSPLORASI ORGAN -->
+        <div id="eksplorasi" class="tab-content active">
+            <div class="grid-2">
+                <!-- Diagram Side -->
+                <div class="card">
+                    <h2 class="card-title">
+                        <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4m0-4h.01"></path></svg>
+                        Anatomi Sistem Pencernaan
+                    </h2>
+                    <p style="font-size: 0.9rem; color: var(--slate); margin-bottom: 15px;">Klik tombol organ di bawah ini atau klik langsung bagian pada diagram untuk mempelajari detailnya.</p>
+                    
+                    <div class="organ-list-grid">
+                        <button class="organ-btn-select active" onclick="selectOrgan('mulut')">Mulut</button>
+                        <button class="organ-btn-select" onclick="selectOrgan('kerongkongan')">Kerongkongan</button>
+                        <button class="organ-btn-select" onclick="selectOrgan('lambung')">Lambung</button>
+                        <button class="organ-btn-select" onclick="selectOrgan('hati')">Hati & Empedu</button>
+                        <button class="organ-btn-select" onclick="selectOrgan('pankreas')">Pankreas</button>
+                        <button class="organ-btn-select" onclick="selectOrgan('usus_halus')">Usus Halus</button>
+                        <button class="organ-btn-select" onclick="selectOrgan('usus_besar')">Usus Besar</button>
+                        <button class="organ-btn-select" onclick="selectOrgan('anus')">Anus</button>
+                    </div>
+
+                    <div class="diagram-container">
+                        <svg class="svg-body" viewBox="0 0 300 500">
+                            <!-- Simple Anatomical Body Outline -->
+                            <path d="M150 30 C 120 30, 100 60, 100 100 C 100 130, 110 140, 90 180 C 70 220, 70 350, 90 440 L 210 440 C 230 350, 230 220, 210 180 C 190 140, 200 130, 200 100 C 200 60, 180 30, 150 30 Z" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="3"/>
+                            
+                            <!-- Mulut -->
+                            <circle id="node-mulut" class="organ-node active" cx="150" cy="75" r="16" fill="#ef4444" onclick="selectOrgan('mulut')"/>
+                            <text x="150" y="79" font-size="10" fill="white" font-weight="bold" text-anchor="middle" pointer-events="none">Mulut</text>
+                            
+                            <!-- Kerongkongan -->
+                            <rect id="node-kerongkongan" class="organ-node" x="144" y="100" width="12" height="60" rx="6" fill="#f59e0b" onclick="selectOrgan('kerongkongan')"/>
+                            
+                            <!-- Hati & Empedu -->
+                            <path id="node-hati" class="organ-node" d="M115 170 Q 140 165 145 190 Q 120 205 110 185 Z" fill="#84cc16" onclick="selectOrgan('hati')"/>
+                            
+                            <!-- Lambung -->
+                            <path id="node-lambung" class="organ-node" d="M150 170 Q 180 170 175 200 Q 160 225 140 205 Q 145 185 150 170 Z" fill="#3b82f6" onclick="selectOrgan('lambung')"/>
+                            
+                            <!-- Pankreas -->
+                            <rect id="node-pankreas" class="organ-node" x="135" y="215" width="30" height="10" rx="5" fill="#a855f7" onclick="selectOrgan('pankreas')"/>
+                            
+                            <!-- Usus Besar (Kolon) Outer -->
+                            <path id="node-usus_besar" class="organ-node" d="M 110 230 L 190 230 L 190 320 L 170 320 L 170 250 L 130 250 L 130 320 L 110 320 Z" fill="#06b6d4" onclick="selectOrgan('usus_besar')"/>
+                            
+                            <!-- Usus Halus Inner -->
+                            <rect id="node-usus_halus" class="organ-node" x="132" y="255" width="36" height="60" rx="8" fill="#10b981" onclick="selectOrgan('usus_halus')"/>
+                            
+                            <!-- Anus -->
+                            <circle id="node-anus" class="organ-node" cx="150" cy="355" r="10" fill="#64748b" onclick="selectOrgan('anus')"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Info Side -->
+                <div class="card">
+                    <div class="organ-header">
+                        <div class="organ-badge" id="organ-icon">👄</div>
+                        <div>
+                            <h2 id="organ-name" style="font-size: 1.6rem; color: var(--dark);">Rongga Mulut</h2>
+                            <span id="organ-tag" class="badge-tag tag-keduanya">Mekanik & Kimiawi</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <div class="info-label">Fungsi Utama</div>
+                        <div class="info-value" id="organ-desc">Mengunyah makanan menjadi potongan kecil (mekanis) dan mencernanya secara kimiawi menggunakan enzim ptialin/amilase.</div>
+                    </div>
+
+                    <div class="info-group">
+                        <div class="info-label">Enzim & Cairan Pencernaan</div>
+                        <div id="organ-enzymes">
+                            <span class="enzyme-pill">🧪 Amilase (Ptialin)</span>
+                        </div>
+                    </div>
+
+                    <div class="info-group">
+                        <div class="info-label">Durasi Makanan Disinggahi</div>
+                        <div class="info-value" id="organ-duration">⏱️ ~5 hingga 30 detik</div>
+                    </div>
+
+                    <div class="info-group" style="background: var(--accent-light); padding: 15px; border-radius: 12px; border-left: 4px solid var(--accent);">
+                        <div class="info-label" style="color: #b45309;">💡 Fakta Unik / Tips Kesehatan</div>
+                        <div class="info-value" id="organ-fact" style="font-size: 0.92rem; color: #78350f;">
+                            Air liur mengandung enzim yang mulai memecah karbohidrat saat Anda mengunyah. Mengunyah makanan 20-30 kali membantu meringankan kerja lambung!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: SIMULASI PENCERNAAN -->
+        <div id="simulasi" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">
+                    <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Simulasi Perjalanan Makanan
+                </h2>
+
+                <p style="margin-bottom: 20px; color: var(--slate);">Pilih jenis nutrisi makanan dan jalankan simulasi untuk melihat bagaimana zat tersebut diurai di setiap tahapan organ pencernaan.</p>
+
+                <div style="margin-bottom: 15px; font-weight: 700; font-size: 0.95rem;">Pilih Nutrisi Makanan:</div>
+                <div class="food-selector">
+                    <div class="food-opt selected" onclick="selectFood('karbo')">🍞 Karbohidrat (Nasi/Roti)</div>
+                    <div class="food-opt" onclick="selectFood('protein')">🥩 Protein (Daging/Telur)</div>
+                    <div class="food-opt" onclick="selectFood('lemak')">🧀 Lemak (Kei/Minyak)</div>
+                </div>
+
+                <div class="sim-controls">
+                    <button class="btn btn-primary" id="sim-start-btn" onclick="toggleSimulation()">▶️ Mulai Simulasi</button>
+                    <button class="btn btn-secondary" onclick="resetSimulation()">🔄 Reset</button>
+                    <span style="font-size: 0.9rem; font-weight: 600; color: var(--slate); margin-left: auto;" id="sim-status">Status: Siap</span>
+                </div>
+
+                <div class="sim-track">
+                    <div class="track-step" id="step-1">
+                        <div class="step-num">1</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.05rem;" id="step-1-title">Mulut</div>
+                            <div style="font-size: 0.9rem; color: var(--slate);" id="step-1-desc">Makanan dikunyah secara mekanis dan dicampur dengan ludah.</div>
+                        </div>
+                    </div>
+
+                    <div class="track-step" id="step-2">
+                        <div class="step-num">2</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.05rem;" id="step-2-title">Kerongkongan</div>
+                            <div style="font-size: 0.9rem; color: var(--slate);" id="step-2-desc">Gerakan Peristaltik meremas bolus makanan ke lambung.</div>
+                        </div>
+                    </div>
+
+                    <div class="track-step" id="step-3">
+                        <div class="step-num">3</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.05rem;" id="step-3-title">Lambung</div>
+                            <div style="font-size: 0.9rem; color: var(--slate);" id="step-3-desc">Pengadukan makanan dan pencernaan asam.</div>
+                        </div>
+                    </div>
+
+                    <div class="track-step" id="step-4">
+                        <div class="step-num">4</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.05rem;" id="step-4-title">Usus Halus</div>
+                            <div style="font-size: 0.9rem; color: var(--slate);" id="step-4-desc">Penyerapan nutrisi ke pembuluh darah.</div>
+                        </div>
+                    </div>
+
+                    <div class="track-step" id="step-5">
+                        <div class="step-num">5</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.05rem;" id="step-5-title">Usus Besar & Anus</div>
+                            <div style="font-size: 0.9rem; color: var(--slate);" id="step-5-desc">Penyerapan air & pembuangan sisa feses.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: TABEL ENZIM -->
+        <div id="enzim" class="tab-content">
+            <div class="card">
+                <h2 class="card-title">
+                    <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                    Ringkasan Enzim Pencernaan Utama
+                </h2>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Organ Penghasil</th>
+                                <th>Nama Enzim / Cairan</th>
+                                <th>Substrat (Target Makanan)</th>
+                                <th>Hasil Penguraian</th>
+                                <th>Suasana (pH)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Mulut</strong> (Kelenjar Ludah)</td>
+                                <td>Amilase / Ptialin</td>
+                                <td>Amilum (Karbohidrat Kompleks)</td>
+                                <td>Maltosa / Glukosa Sederhana</td>
+                                <td>Netral (pH ~6.8)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2"><strong>Lambung</strong></td>
+                                <td>Pepsin</td>
+                                <td>Protein</td>
+                                <td>Pepton / Peptida</td>
+                                <td>Sangat Asam (pH 1.5 - 2.0)</td>
+                            </tr>
+                            <tr>
+                                <td>Renin</td>
+                                <td>Kasein (Protein Susu)</td>
+                                <td>Gumpalan Kasein</td>
+                                <td>Asam</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hati</strong> (Disimpan di Empedu)</td>
+                                <td>Getah Empedu</td>
+                                <td>Lemak Besar</td>
+                                <td>Emulsi Lemak</td>
+                                <td>Basa</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3"><strong>Pankreas</strong></td>
+                                <td>Amilase Pankreas</td>
+                                <td>Amilum</td>
+                                <td>Maltosa</td>
+                                <td>Basa (pH 8)</td>
+                            </tr>
+                            <tr>
+                                <td>Tripsin</td>
+                                <td>Protein / Pepton</td>
+                                <td>Asam Amino</td>
+                                <td>Basa</td>
+                            </tr>
+                            <tr>
+                                <td>Lipase Pankreas</td>
+                                <td>Emulsi Lemak</td>
+                                <td>Asam Lemak & Gliserol</td>
+                                <td>Basa</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2"><strong>Usus Halus</strong></td>
+                                <td>Maltase, Sukrase, Laktase</td>
+                                <td>Disakarida (Gula Ganda)</td>
+                                <td>Monosakarida (Glukosa, Fruktosa)</td>
+                                <td>Basa</td>
+                            </tr>
+                            <tr>
+                                <td>Erepsin / Peptidase</td>
+                                <td>Pepton</td>
+                                <td>Asam Amino</td>
+                                <td>Basa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: KUIS -->
+        <div id="kuis" class="tab-content">
+            <div class="quiz-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 1.4rem; font-weight: 700;">Kuis Evaluasi Pencernaan</h2>
+                    <span id="quiz-score" style="font-weight: 700; color: var(--primary); font-size: 1.1rem;">Skor: 0 / 5</span>
+                </div>
+
+                <div id="quiz-container">
+                    <!-- Dynamic Question Area -->
+                    <div id="question-title" style="font-size: 1.15rem; font-weight: 700; margin-bottom: 15px; color: var(--dark);">
+                        Soal 1: Di organ manakah proses pencernaan protein pertama kali dimulai?
+                    </div>
+
+                    <div id="quiz-options">
+                        <!-- Options injected by JS -->
+                    </div>
+
+                    <div id="feedback" class="feedback-box"></div>
+
+                    <button class="btn btn-primary" id="next-q-btn" style="margin-top: 20px; display: none;" onclick="nextQuestion()">Soal Berikutnya ➔</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 Media Pembelajaran Interaktif — Sistem Pencernaan Manusia</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data Organ
+        const organData = {
+            mulut: {
+                name: 'Rongga Mulut',
+                icon: '👄',
+                tag: 'Mekanik & Kimiawi',
+                tagClass: 'tag-keduanya',
+                desc: 'Mengunyah makanan menjadi potongan kecil secara mekanis (gigi & lidah) dan memecah karbohidrat secara kimiawi dengan enzim amilase.',
+                enzymes: ['🧪 Amilase / Ptialin (Memecah Amilum → Gula Sederhana)'],
+                duration: '⏱️ ~5 sampai 30 detik',
+                fact: 'Air liur membasahi makanan agar mudah ditelan. Mengunyah dengan teliti membuat kinerja lambung jauh lebih ringan!'
+            },
+            kerongkongan: {
+                name: 'Kerongkongan (Esofagus)',
+                icon: '🥖',
+                tag: 'Mekanik (Gerak Peristaltik)',
+                tagClass: 'tag-mekanik',
+                desc: 'Saluran otot sepanjang ~25 cm yang mendorong makanan dari mulut menuju lambung dengan gerakan meremas bergelombang (gerakan peristaltik).',
+                enzymes: ['❌ Tidak ada enzim yang dihasilkan'],
+                duration: '⏱️ ~5 sampai 10 detik',
+                fact: 'Katup epiglottis menutup saluran pernapasan saat Anda menelan agar makanan tidak tersedak masuk ke paru-paru.'
+            },
+            lambung: {
+                name: 'Lambung',
+                icon: '🥣',
+                tag: 'Mekanik & Kimiawi',
+                tagClass: 'tag-keduanya',
+                desc: 'Organ kantung berotot tebal yang meremas makanan secara mekanis dan mencernanya secara kimiawi dengan asam lambung (HCl) dan enzim pencerna protein.',
+                enzymes: ['🧪 Pepsin (Protein → Pepton)', '🧪 Renin (Mengendapkan Kasein Susu)', '🧪 Asam Lambung HCl (Membunuh kuman & mengaktifkan pepsin)'],
+                duration: '⏱️ ~2 sampai 4 jam',
+                fact: 'Dinding lambung dilapisi lendir mukus tebal agar tidak terkikis oleh asam lambung HCl yang sangat kuat!'
+            },
+            hati: {
+                name: 'Hati & Kantung Empedu',
+                icon: '🫀',
+                tag: 'Organ Pendukung (Kimiawi)',
+                tagClass: 'tag-kimiawi',
+                desc: 'Hati memproduksi cairan empedu yang disimpan di kantung empedu. Empedu berfungsi mengemulsi lemak agar mudah diurai oleh enzim lipase.',
+                enzymes: ['🧪 Getah Empedu (Mengemulsi/memecah partikel lemak besar)'],
+                duration: '⏱️ Berfungsi secara kontinyu saat makanan masuk usus',
+                fact: 'Hati adalah organ dalam terbesar manusia dan memiliki lebih dari 500 fungsi vital termasuk menetralkan racun!'
+            },
+            pankreas: {
+                name: 'Pankreas',
+                icon: '🥞',
+                tag: 'Organ Pendukung (Kimiawi)',
+                tagClass: 'tag-kimiawi',
+                desc: 'Kelenjar yang menghasilkan getah pankreas berisi enzim-enzim penjelas karbohidrat, protein, dan lemak yang disalurkan ke usus halus.',
+                enzymes: ['🧪 Amilase Pankreas', '🧪 Tripsin (Protein → Asam Amino)', '🧪 Lipase Pankreas (Lemak → Asam Lemak & Gliserol)'],
+                duration: '⏱️ Menyalurkan enzim saat makanan tiba di usus halus',
+                fact: 'Selain enzim pencernaan, pankreas juga menghasilkan hormon Insulin untuk mengatur kadar gula darah.'
+            },
+            usus_halus: {
+                name: 'Usus Halus (Intestinum Tenuis)',
+                icon: '🌀',
+                tag: 'Kimiawi & Penyerapan (Absorpsi)',
+                tagClass: 'tag-kimiawi',
+                desc: 'Organ terpanjang (~6 meter) terdiri dari Duodenum, Jejunum, dan Ileum. Tempat utama pencernaan kimiawi dan penyerapan nutrisi ke pembuluh darah.',
+                enzymes: ['🧪 Maltase, Sukrase, Laktase (Memecah Gula Ganda)', '🧪 Peptidase (Pepton → Asam Amino)'],
+                duration: '⏱️ ~3 sampai 6 jam',
+                fact: 'Dinding usus halus memiliki lipatan jonjot usus (vili) yang memperluas permukaan penyerapan seluas lapangan tenis!'
+            },
+            usus_besar: {
+                name: 'Usus Besar (Kolon)',
+                icon: '🪵',
+                tag: 'Penyerapan Air & Pembusukan',
+                tagClass: 'tag-mekanik',
+                desc: 'Menyerap air dan garam mineral dari sisa makanan serta membentuk feses dengan bantuan bakteri baik Escherichia coli.',
+                enzymes: ['🧫 Bakteri E. coli (Membantu pembentukan Vitamin K & pembusukan)'],
+                duration: '⏱️ ~12 sampai 48 jam',
+                fact: 'Triliunan bakteri baik tinggal di usus besar kita dan sangat penting untuk menjaga daya tahan tubuh!'
+            },
+            anus: {
+                name: 'Anus',
+                icon: '🚪',
+                tag: 'Pengeluaran (Eliminasi)',
+                tagClass: 'tag-mekanik',
+                desc: 'Muara akhir saluran pencernaan yang dilengkapi otot sfingter untuk mengontrol pengeluaran feses (defekasi).',
+                enzymes: ['❌ Tidak ada enzim'],
+                duration: '⏱️ Saat buang air besar',
+                fact: 'Otot polos dan otot lurik pada anus bekerja sama secara sadar dan tidak sadar saat proses pembungan.'
+            }
+        };
+
+        // Select Organ Function
+        function selectOrgan(organKey) {
+            // Update buttons
+            document.querySelectorAll('.organ-btn-select').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(organKey)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update SVG selection
+            document.querySelectorAll('.organ-node').forEach(node => {
+                node.classList.remove('active');
+            });
+            const activeNode = document.getElementById('node-' + organKey);
+            if(activeNode) activeNode.classList.add('active');
+
+            // Update Details
+            const data = organData[organKey];
+            document.getElementById('organ-icon').innerText = data.icon;
+            document.getElementById('organ-name').innerText = data.name;
+            
+            const tagElem = document.getElementById('organ-tag');
+            tagElem.innerText = data.tag;
+            tagElem.className = 'badge-tag ' + data.tagClass;
+
+            document.getElementById('organ-desc').innerText = data.desc;
+            document.getElementById('organ-duration').innerText = data.duration;
+            document.getElementById('organ-fact').innerText = data.fact;
+
+            const enzContainer = document.getElementById('organ-enzymes');
+            enzContainer.innerHTML = '';
+            data.enzymes.forEach(e => {
+                const pill = document.createElement('span');
+                pill.className = 'enzyme-pill';
+                pill.innerText = e;
+                enzContainer.appendChild(pill);
+            });
+        }
+
+        // Tab Navigation
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Simulation Logic
+        let currentFood = 'karbo';
+        let simInterval = null;
+        let simStep = 0;
+
+        const foodStepData = {
+            karbo: [
+                { title: 'Mulut', desc: 'Amilase/Ptialin memecah amilum nasi menjadi maltosa (gula sederhana).' },
+                { title: 'Kerongkongan', desc: 'Bolus nasi didorong oleh gerakan peristaltik tanpa perubahan kimiawi.' },
+                { title: 'Lambung', desc: 'Pencernaan amilum terhenti sementara karena suasana sangat asam (HCl).' },
+                { title: 'Usus Halus', desc: 'Amilase pankreas & maltase memecah maltosa menjadi glukosa. Glukosa diserap ke darah!' },
+                { title: 'Usus Besar & Anus', desc: 'Serat karbohidrat yang tak tercerna diserap airnya dan dikeluarkan sebagai feses.' }
+            ],
+            protein: [
+                { title: 'Mulut', desc: 'Daging dikunyah secara mekanis menjadi partikel lebih kecil.' },
+                { title: 'Kerongkongan', desc: 'Daging meluncur ke lambung dengan gerakan meliuk otot esofagus.' },
+                { title: 'Lambung', desc: 'Asam HCl mengaktifkan Pepsin. Pepsin memecah rantai protein daging menjadi Pepton!' },
+                { title: 'Usus Halus', desc: 'Tripsin pankreas & peptidase memecah Pepton menjadi Asam Amino. Diserap tubuh!' },
+                { title: 'Usus Besar & Anus', desc: 'Sisa pembusukan protein dibantu bakteri E. coli dan dibuang.' }
+            ],
+            lemak: [
+                { title: 'Mulut', desc: 'Pengunyahan mekanis mencampur lemak dengan liur.' },
+                { title: 'Kerongkongan', desc: 'Mendorong gumpalan lemak ke bawah.' },
+                { title: 'Lambung', desc: 'Lemak sedikit dicerna secara terbatas, sebagian besar belum terurai.' },
+                { title: 'Usus Halus', desc: 'Getah Empedu emulsi lemak besar, lalu Lipase memecahnya jadi Asam Lemak & Gliserol!' },
+                { title: 'Usus Besar & Anus', desc: 'Air diserap kembali, sisa yang tidak tercerna dibuang.' }
+            ]
+        };
+
+        function selectFood(type) {
+            currentFood = type;
+            document.querySelectorAll('.food-opt').forEach(opt => opt.classList.remove('selected'));
+            event.target.classList.add('selected');
+            resetSimulation();
+        }
+
+        function updateSimUI() {
+            const steps = foodStepData[currentFood];
+            for (let i = 1; i <= 5; i++) {
+                const stepElem = document.getElementById(`step-${i}`);
+                const titleElem = document.getElementById(`step-${i}-title`);
+                const descElem = document.getElementById(`step-${i}-desc`);
+
+                titleElem.innerText = steps[i-1].title;
+                descElem.innerText = steps[i-1].desc;
+
+                if (i === simStep) {
+                    stepElem.classList.add('active-step');
+                } else {
+                    stepElem.classList.remove('active-step');
+                }
+            }
+        }
+
+        function toggleSimulation() {
+            const btn = document.getElementById('sim-start-btn');
+            if (simInterval) {
+                clearInterval(simInterval);
+                simInterval = null;
+                btn.innerText = '▶️ Lanjutkan Simulasi';
+                document.getElementById('sim-status').innerText = 'Status: Dihentikan';
+            } else {
+                if (simStep === 0 || simStep >= 5) simStep = 0;
+                document.getElementById('sim-status').innerText = 'Status: Berjalan...';
+                btn.innerText = '⏸️ Pause';
+                simInterval = setInterval(() => {
+                    simStep++;
+                    updateSimUI();
+                    if (simStep >= 5) {
+                        clearInterval(simInterval);
+                        simInterval = null;
+                        btn.innerText = '🔄 Selesai (Ulangi)';
+                        document.getElementById('sim-status').innerText = 'Status: Selesai';
+                    }
+                }, 2000);
+            }
+        }
+
+        function resetSimulation() {
+            if (simInterval) {
+                clearInterval(simInterval);
+                simInterval = null;
+            }
+            simStep = 0;
+            document.getElementById('sim-start-btn').innerText = '▶️ Mulai Simulasi';
+            document.getElementById('sim-status').innerText = 'Status: Siap';
+            updateSimUI();
+        }
+
+        // Quiz Logic
+        const quizQuestions = [
+            {
+                q: "Di organ manakah proses pencernaan protein pertama kali dimulai?",
+                options: ["Mulut", "Lambung", "Usus Halus", "Kerongkongan"],
+                answer: 1,
+                explanation: "Pencernaan protein pertama kali terjadi di lambung dengan bantuan enzim Pepsin dan asam HCl."
+            },
+            {
+                q: "Enzim Amilase (Ptialin) pada air liur berfungsi untuk memecah...",
+                options: ["Protein menjadi Asam Amino", "Lemak menjadi Asam Lemak", "Amilum (Karbohidrat) menjadi Glukosa", "Vitamin menjadi Mineral"],
+                answer: 2,
+                explanation: "Amilase/Ptialin berfungsi merombak amilum (karbohidrat kompleks) menjadi gula sederhana di mulut."
+            },
+            {
+                q: "Gerakan meremas dan mendorong makanan pada kerongkongan disebut...",
+                options: ["Gerak Amuba", "Gerak Peristaltik", "Gerak Basa", "Gerak Osmosis"],
+                answer: 1,
+                explanation: "Gerakan bergelombang otot polos di kerongkongan mendorong bolus ke lambung dinamakan gerak Peristaltik."
+            },
+            {
+                q: "Cairan empedu yang diproduksi oleh hati berfungsi untuk...",
+                options: ["Mengemulsi Lemak", "Membunuh bakteri", "Mencerna protein", "Menyerap air"],
+                answer: 0,
+                explanation: "Cairan empedu bertugas mengemulsi gumpalan lemak agar mudah diuraikan oleh enzim lipase."
+            },
+            {
+                q: "Penyerapan sisa-sisa air serta pembentukan feses terjadi pada organ...",
+                options: ["Lambung", "Usus Halus", "Usus Besar", "Pankreas"],
+                answer: 2,
+                explanation: "Usus besar (kolon) bertugas menyerap air dan garam mineral serta membusukkan sisa makanan menjadi feses."
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const qData = quizQuestions[currentQ];
+            document.getElementById('question-title').innerText = `Soal ${currentQ + 1} dari ${quizQuestions.length}: ${qData.q}`;
+            
+            const optContainer = document.getElementById('quiz-options');
+            optContainer.innerHTML = '';
+
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('next-q-btn').style.display = 'none';
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                btn.onclick = () => checkAnswer(idx);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIdx) {
+            const qData = quizQuestions[currentQ];
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('feedback');
+
+            // Disable all options
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selectedIdx === qData.answer) {
+                options[selectedIdx].classList.add('correct');
+                feedback.className = 'feedback-box feedback-correct';
+                feedback.innerText = '✅ Benar! ' + qData.explanation;
+                score += 20;
+            } else {
+                options[selectedIdx].classList.add('wrong');
+                options[qData.answer].classList.add('correct');
+                feedback.className = 'feedback-box feedback-wrong';
+                feedback.innerText = '❌ Kurang tepat. ' + qData.explanation;
+            }
+
+            feedback.style.display = 'block';
+            document.getElementById('quiz-score').innerText = `Skor: ${score} / 100`;
+            document.getElementById('next-q-btn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQ++;
+            if (currentQ < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('quiz-container').innerHTML = `
+                    <div style="text-align: center; padding: 30px;">
+                        <h3 style="font-size: 1.8rem; color: var(--primary); margin-bottom: 10px;">🎉 Selamat! Anda telah menyelesaikan kuis.</h3>
+                        <p style="font-size: 1.2rem; font-weight: 700; margin-bottom: 20px;">Skor Akhir Anda: ${score} / 100</p>
+                        <button class="btn btn-primary" onclick="restartQuiz()">🔄 Ulangi Kuis</button>
+                    </div>
+                `;
+            }
+        }
+
+        function restartQuiz() {
+            currentQ = 0;
+            score = 0;
+            document.getElementById('quiz-score').innerText = `Skor: 0 / 100`;
+            document.getElementById('quiz-container').innerHTML = `
+                <div id="question-title" style="font-size: 1.15rem; font-weight: 700; margin-bottom: 15px; color: var(--dark);"></div>
+                <div id="quiz-options"></div>
+                <div id="feedback" class="feedback-box"></div>
+                <button class="btn btn-primary" id="next-q-btn" style="margin-top: 20px; display: none;" onclick="nextQuestion()">Soal Berikutnya ➔</button>
+            `;
+            loadQuestion();
+        }
+
+        // Initialize
+        updateSimUI();
+        loadQuestion();
+    </script>
+</body>
+</html>
